@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/EricG442/InquirerEmployeeManager#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
     "inquirer": "^8.0.0",
     "mysql": "^2.18.1",
