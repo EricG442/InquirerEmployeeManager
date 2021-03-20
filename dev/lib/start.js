@@ -42,7 +42,7 @@ const questions = {
     
 }
 
-class Engine {
+class PromptEngine {
 
     mainMenu() {
         return inquirer.prompt(questions.homeMenu);
@@ -53,4 +53,4 @@ class Engine {
     };
 };
 
-module.exports = Engine;
+module.exports = PromptEngine;

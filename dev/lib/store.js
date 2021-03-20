@@ -16,6 +16,14 @@ class Store {
             })
     }
 
+    test() {
+        let db = this.connection;
+        db.connect(err => {
+            if(err) throw err;
+            console.log('connected as thread id ' + db.threadId);
+        })
+    };
+
     start() {
         return new Promise((res, rej) => {
             let db = this.connection;
