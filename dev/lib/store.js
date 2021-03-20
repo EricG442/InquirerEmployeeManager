@@ -40,11 +40,16 @@ class Store {
         this.connection.end();
     };
 
-    addDepartment() {
+    addDepartment(obj) {
         return new Promise((res, rej) => {
             let db = this.connection;
 
-            res(console.log(db, '\nAdd department path was hit'));
+            db.query('INSERT INTO department SET ?', {name: obj.newDepartment}, (error, result) => {
+                if(error) rej(error);
+                res(result);
+                console.log(`\nAdding ${obj.newDepartment} to departments`);
+            })
+            
         })
     };
 
@@ -63,6 +68,14 @@ class Store {
             res(console.log(db, '\nAdd role path was hit'));
         })
     };
+
+    updateEmployeeInfo() {};
+
+    viewDepartment() {};
+
+    viewEmployee() {};
+
+    viewEmployeeRole() {};
 }
 
 module.exports = new Store;

@@ -4,16 +4,16 @@ const questions = {
     homeMenu: [
         {
             message: 'Please choose an option',
-            name: 'home-menu',
+            name: 'mainMenu',
             type: 'list',
             choices: [
                 'Add Department',
                 'Add Employee',
                 'Add Employee Role',
                 'Update Employee Info',
-                'View Department',
-                'View Employee',
-                'View Employee Role',
+                'View Department\'s',
+                'View Employee\'s',
+                'View Employee Role\'s',
                 'Exit'
             ]
         } 
@@ -50,6 +50,10 @@ class PromptEngine {
 
     addDepartMenu() {
         return inquirer.prompt(questions.addDepartment);
+    };
+
+    addEmployee(roleObj) {
+
     };
 };
 

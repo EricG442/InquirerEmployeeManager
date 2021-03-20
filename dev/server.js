@@ -1,3 +1,4 @@
-const store = require('./lib/store.js');
+const main = require('./lib/main.js');
+const app = new main();
 
-store.test();
+app.run();
