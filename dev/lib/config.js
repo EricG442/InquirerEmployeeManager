@@ -13,7 +13,11 @@ process.env.DB_PASS = '',
 process.env.DB_NAME = 'employees_db';
 
 try {
-    if(fs.existsSync(envPath)) dotenv(envPath);
+    if(fs.existsSync(envPath)) {
+        let res = dotenv.config({path: envPath});
+        if(res.error) throw res.error;
+        process.env.DB_PASS = res.parsed.DB_PASS;
+    };
 }catch(err) {
     console.log('\nPlease run \'node dev/init.js\' in your terminal to setup a .env file to use this app');
 }
