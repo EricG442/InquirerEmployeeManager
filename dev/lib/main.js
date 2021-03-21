@@ -1,6 +1,7 @@
 const store = require('./store.js');
 const start = require('./start.js');
-const { exists } = require('fs');
+const fs = require('fs');
+const { runInThisContext } = require('vm');
 
 class Main {
     constructor() {
@@ -31,10 +32,15 @@ class Main {
                 promise = this.viewRoles();
             }else if(answer === 'View Employee\'s') {
                 promise = this.viewEmployees();
+            }else if(answer === 'Update Employee Info') {
+
+            }else if(answer === 'Exit') {
+                return store.end();
             }
 
             return promise
-                    .then(res => this.display(res));
+                    .then(res => this.display(res))
+                    .then(() => this.runMainMenu());
         });
     };
 
@@ -55,9 +61,12 @@ class Main {
                     .then(res => {
                         return this.promptUser.addEmployee(res);
                     })
+                    .then(res => {
+                        return store.addEmployee(res);
+                    })
                     .then(() => {
                         return store.viewEmployee();
-                    });
+                    })
     };
 
     addEmployeeRole() {
@@ -71,8 +80,12 @@ class Main {
                     })
                     .then(() => {
                         return store.viewEmployeeRole();
-                    })
+                    });
     };
+
+    updateEmployee() {
+        return 
+    }
 
     viewDepartments() {
         return store.viewDepartment();

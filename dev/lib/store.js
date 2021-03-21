@@ -45,11 +45,20 @@ class Store {
         })
     };
 
-    addEmployee() {
+    addEmployee(employeeInfo) {
         return new Promise((res, rej) => {
             let db = this.connection;
 
-            res(console.log(db, '\nAdd employee path was hit'));
+            db.query('INSERT INTO employee SET ?', 
+            {first_name: employeeInfo.newEmplFirst, 
+            last_name: employeeInfo.newEmplLast,
+            role_id: employeeInfo.roleId, 
+            manager_id: null},
+            (error, result) => {
+                if(error) rej(error);
+                else res(result);
+            }
+            )
         })
     };
 

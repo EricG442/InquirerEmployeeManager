@@ -55,7 +55,6 @@ const questions = {
             }
         }
     ]
-    
 }
 
 class PromptEngine {
@@ -87,6 +86,30 @@ class PromptEngine {
     }
 
     addManagToEmp(employeeList) {
+        employeeList.push(
+            {
+                id: null,
+                first_name: 'No',
+                last_name: 'Manager',
+                role_id: 'NA'
+            }
+        )
+        
+        return inquirer
+                    .prompt([{
+                        message: 'Please choose a manager for your new employee or select \'NA\' if there is no manager for your employee',
+                        name: 'manager_id',
+                        type: 'list',
+                        choices: employeeList.map(worker => {
+                            return {
+                                name: `${worker.first_name} ${worker.last_name}, role_id=${worker.role_id}`,
+                                value: worker.id
+                            }
+                        })
+                    }])
+    };
+
+    updateEmployee() {
         
     }
 };
