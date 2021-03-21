@@ -16,13 +16,6 @@ class Store {
             })
     }
 
-    test() {
-        let db = this.connection;
-        db.connect(err => {
-            if(err) throw err;
-            console.log('connected as thread id ' + db.threadId);
-        })
-    };
 
     start() {
         return new Promise((res, rej) => {
@@ -31,7 +24,6 @@ class Store {
             db.connect(err => {
                 if(err) rej(err)
                 else res();
-                console.log('Connected as thread ' + db.threadId);
             })
         });
     };
@@ -71,7 +63,14 @@ class Store {
 
     updateEmployeeInfo() {};
 
-    viewDepartment() {};
+    viewDepartment() {
+        return new Promise((res, rej) => {
+            this.connection.query('SELECT * FROM department', (error, result) => {
+                if(error) rej(error);
+                else res(result);
+            })
+        })
+    };
 
     viewEmployee() {};
 

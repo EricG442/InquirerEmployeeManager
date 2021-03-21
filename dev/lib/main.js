@@ -19,7 +19,6 @@ class Main {
             .start()
             .then(() => this.runMainMenu())
             .catch(err => console.log(err))
-            .finally(() => store.end());
     };
 
     runMainMenu() {
@@ -31,14 +30,20 @@ class Main {
                 promise = this.addDepartment();
             }
 
-            return promise.then(res => console.log(res))
+            return promise
+                    .then(res => this.display(res));
         });
     };
 
     addDepartment() {
         return this.prompt
                         .addDepartMenu()
-                        .then(res => store.addDepartment(res));
+                        .then(res => {
+                            return store.addDepartment(res)
+                        })
+                        .then(() => {
+                            return store.viewDepartment();
+                        })
     }
 
     addEmployee() {
