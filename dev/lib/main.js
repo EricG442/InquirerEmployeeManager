@@ -1,18 +1,11 @@
 const store = require('./store.js');
 const start = require('./start.js');
+const { exists } = require('fs');
 
 class Main {
     constructor() {
-        this.prompt = new start();
+        this.promptUser = new start();
     }
-
-    testConnection() {
-        console.log(store.connection);
-        store
-            .start()
-            .then(() => console.log('successfully connected'))
-            .then(() => store.end());
-    };
 
     run = () => {
         store
@@ -22,12 +15,22 @@ class Main {
     };
 
     runMainMenu() {
-        this.prompt.mainMenu().then(response => {
+        this.promptUser.mainMenu().then(response => {
             let answer = response.mainMenu;
             let promise;
 
             if(answer === 'Add Department') {
                 promise = this.addDepartment();
+            }else if(answer === 'Add Employee Role') {
+                promise = this.addEmployeeRole();
+            }else if(answer === 'Add Employee') {
+                promise = this.addEmployee();
+            }else if(answer === 'View Department\'s') {
+                promise = this.viewDepartments();
+            }else if(answer === 'View Employee Role\'s') {
+                promise = this.viewRoles();
+            }else if(answer === 'View Employee\'s') {
+                promise = this.viewEmployees();
             }
 
             return promise
@@ -36,7 +39,7 @@ class Main {
     };
 
     addDepartment() {
-        return this.prompt
+        return this.promptUser
                         .addDepartMenu()
                         .then(res => {
                             return store.addDepartment(res)
@@ -47,10 +50,41 @@ class Main {
     }
 
     addEmployee() {
-        return this.prompt
+        return store
+                    .viewEmployeeRole()
+                    .then(res => {
+                        return this.promptUser.addEmployee(res);
+                    })
+                    .then(() => {
+                        return store.viewEmployee();
+                    });
     };
 
-    addEmployeeRole() {};
+    addEmployeeRole() {
+        return store
+                    .viewDepartment()
+                    .then(res => {
+                        return this.promptUser.addEmployeeRole(res);
+                    })
+                    .then(res => {
+                        return store.addRole(res)
+                    })
+                    .then(() => {
+                        return store.viewEmployeeRole();
+                    })
+    };
+
+    viewDepartments() {
+        return store.viewDepartment();
+    }
+
+    viewRoles() {
+        return store.viewEmployeeRole();
+    }
+
+    viewEmployees() {
+        return store.viewEmployee();
+    }
 
     display(response) {
         console.table(response)

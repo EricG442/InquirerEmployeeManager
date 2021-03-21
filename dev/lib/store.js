@@ -53,11 +53,16 @@ class Store {
         })
     };
 
-    addRole() {
+    addRole(roleObj) {
         return new Promise((res, rej) => {
             let db = this.connection;
 
-            res(console.log(db, '\nAdd role path was hit'));
+            db.query('INSERT INTO role SET ?', 
+            {title: roleObj.roleName, salary: roleObj.roleSalary, department_id: roleObj.departmentId}, 
+            (error, result) => {
+                if(error) rej(error);
+                else res(result);
+            })
         })
     };
 
@@ -72,9 +77,23 @@ class Store {
         })
     };
 
-    viewEmployee() {};
+    viewEmployee() {
+        return new Promise((res, rej) => {
+            this.connection.query('SELECT * FROM employee', (error, result) => {
+                if(error) rej(error);
+                else res(result);
+            })
+        })
+    };
 
-    viewEmployeeRole() {};
+    viewEmployeeRole() {
+        return new Promise((res, rej) => {
+            this.connection.query('SELECT * FROM role', (error, result) => {
+                if(error) rej(error);
+                else res(result);
+            })
+        })
+    };
 }
 
 module.exports = new Store;
