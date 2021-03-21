@@ -54,6 +54,15 @@ const questions = {
                 return !isNaN(value) ? true : 'Please enter a valid number';
             }
         }
+    ],
+
+    updateEmployee: [
+        {
+            message: 'Please select what type of info you would like to edit',
+            name: 'whichToUpdate',
+            type: 'list',
+            choices: ['Manager', 'Role']
+        }
     ]
 }
 
@@ -109,8 +118,38 @@ class PromptEngine {
                     }])
     };
 
-    updateEmployee() {
-        
+    updateEmployeeRole(roleList) {
+        return inquirer
+                    .prompt([{
+                        message: 'Please select a new role for your employee',
+                        name: 'roleSelection',
+                        type: 'list',
+                        choices: roleList.map(role => {
+                            return {
+                                name: `${role.title}, $${role.salary}, department ID: ${role.department_id}`,
+                                value: role.id
+                            }
+                        })
+                    }])
+    };
+
+    updateEmployee(employeesList) {
+        return inquirer
+                    .prompt([{
+                        message: 'Please select the employee to change info',
+                        name: 'employeeSelection',
+                        type: 'list',
+                        choices: employeesList.map(worker => {
+                            return {
+                                name: `${worker.first_name} ${worker.last_name}, id=${worker.id}`,
+                                value: worker.id
+                            }
+                        })
+                    }]);
+    }
+
+    updateChoice() {
+        return inquirer.prompt(questions.updateEmployee);
     }
 };
 

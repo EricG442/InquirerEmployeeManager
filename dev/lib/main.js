@@ -1,7 +1,6 @@
 const store = require('./store.js');
 const start = require('./start.js');
-const fs = require('fs');
-const { runInThisContext } = require('vm');
+const { updateEmployeeInfo } = require('./store.js');
 
 class Main {
     constructor() {
@@ -33,7 +32,7 @@ class Main {
             }else if(answer === 'View Employee\'s') {
                 promise = this.viewEmployees();
             }else if(answer === 'Update Employee Info') {
-
+                promise = this.updateEmployee();
             }else if(answer === 'Exit') {
                 return store.end();
             }
@@ -51,11 +50,13 @@ class Main {
                             return store.addDepartment(res)
                         })
                         .then(() => {
-                            return store.viewDepartment();
+                            return this.viewDepartments();
                         })
     }
 
     addEmployee() {
+        let employeeObj = {};
+        
         return store
                     .viewEmployeeRole()
                     .then(res => {
@@ -64,8 +65,19 @@ class Main {
                     .then(res => {
                         return store.addEmployee(res);
                     })
-                    .then(() => {
+                    .then(res => {
+                        employeeObj.employeeId = res.insertId;
                         return store.viewEmployee();
+                    })
+                    .then(res => {
+                        return this.promptUser.addManagToEmp(res);
+                    })
+                    .then(res => {
+                        employeeObj.managerId = res.manager_id;
+                        return store.updateMangId(employeeObj);
+                    })
+                    .then(() => {
+                        return this.viewEmployees();
                     })
     };
 
@@ -79,12 +91,48 @@ class Main {
                         return store.addRole(res)
                     })
                     .then(() => {
-                        return store.viewEmployeeRole();
+                        return this.viewRoles();
                     });
     };
 
     updateEmployee() {
-        return 
+        let employee = {};
+
+        return store
+                    .viewEmployee()
+                    .then(res => {
+                        return this.promptUser.updateEmployee(res);
+                    })
+                    .then(res => {
+                        employee.employeeId = res.employeeSelection;
+                        return this.promptUser.updateChoice()
+                    })
+                    .then(res => {
+                        if(res.whichToUpdate === 'Manager') {
+                            return this
+                                    .viewEmployees()
+                                    .then(res => {return this.promptUser.addManagToEmp(res)})
+                                    .then(res => {
+                                        employee.managerId = res.manager_id;
+                                        return store.updateMangId(employee);
+                                    })
+                                    .then(() => {
+                                        return this.viewEmployees();
+                                    })
+                        }else if(res.whichToUpdate === 'Role') {
+                            console.log('update role for employee id ' + employee.employeeId);
+                            return this
+                                    .viewRoles()
+                                    .then(res => {return this.promptUser.updateEmployeeRole(res)})
+                                    .then(res => {
+                                        employee.roleId = res.roleSelection;
+                                        return store.updateEmployeeRole(employee);
+                                    })
+                                    .then(() => {
+                                        return this.viewEmployees();
+                                    })
+                        }
+                    })
     }
 
     viewDepartments() {

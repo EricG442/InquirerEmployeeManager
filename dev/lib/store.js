@@ -75,7 +75,28 @@ class Store {
         })
     };
 
-    updateEmployeeInfo() {};
+    updateEmployeeRole(someObj) {
+        return new Promise((res, rej) => {
+            this.connection.query('UPDATE employee SET role_id = ? WHERE id = ?', 
+            [someObj.roleId, someObj.employeeId],
+            (error, result) => {
+                if(error) rej(error);
+                else res(result);
+            });
+        })
+    };
+
+    updateMangId(someObj) {
+        return new Promise((res, rej) => {
+            this.connection.query('UPDATE employee SET manager_id = ? WHERE id = ?', 
+            [someObj.managerId, someObj.employeeId],
+            (error, result) => {
+                if(error) rej(error);
+                else res(result);
+            }
+            )
+        })
+    };
 
     viewDepartment() {
         return new Promise((res, rej) => {
