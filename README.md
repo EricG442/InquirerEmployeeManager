@@ -9,17 +9,34 @@ Use Inquirer to create and update entries using a MySQL database
 * [Installation](#installation)
 * [Usage](#usage)
 * [License](#license)
-* [Contributers](#contributers)
+* [Contributers](#contributing)
 * [Questions](#questions)
         
 
 ## Installation
 
-clone the repository then, in the root directory, run npm install to install the neccecary dependencies. After installation is finished run node dev/init.js to setup the connection to the MySQL database
+Node.js required to use this application. 
 
+Once the repository is cloned onto the system, run
+```
+npm i --production
+```
+in the root directory of the repository and use the .sql file  in the dev/db folder to setup the database from your MySQL workbench.
+
+After the installation is finished run
+```
+node dev/init.js
+```
+to setup a connection between the application and your MySQL database. If you already have ran this command before the code will return a message saying it cannot be ran again.
 ## Usage
 
-run npm start from the root directory to start the application
+Once the installation and setup commands are all complete you can run
+```
+npm start
+```
+to start the application
+
+This is a mock application of a console tool to be able to let a user interact with a MySQL database.
 
 ## License
 
