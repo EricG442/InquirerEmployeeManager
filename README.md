@@ -15,7 +15,7 @@ Use Inquirer to create and update entries using a MySQL database
 
 ## Installation
 
-Node.js required to use this application. 
+Node.js is required to use this application. 
 
 Once the repository is cloned onto the system, run
 ```
