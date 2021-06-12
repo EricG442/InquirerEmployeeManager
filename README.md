@@ -27,7 +27,7 @@ After the installation is finished run
 ```
 node dev/init.js
 ```
-to setup a connection between the application and your MySQL database. If you already have ran this command before the code will return a message saying it cannot be ran again.
+to setup a connection between the application and your MySQL database. If you already have run this command before the code will return a message saying it cannot be ran again.
 ## Usage
 
 Once the installation and setup commands are all complete you can run
