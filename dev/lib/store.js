@@ -4,9 +4,11 @@ const path = require('path');
 
 class Store {
     constructor() {
+        // another check if the user has correctly setup the application
         if(!config.DB_PASS)
             throw new Error('Missing MySQL database password! Please run the setup command');
 
+            // creating MySQL connection
             this.connection = mysql.createConnection({
                 host: config.DB_HOST,
                 port: config.DB_PORT,
@@ -18,6 +20,7 @@ class Store {
 
 
     start() {
+        // return a promise to verify if the connection was successfull or not
         return new Promise((res, rej) => {
             let db = this.connection;
             
@@ -36,6 +39,8 @@ class Store {
         return new Promise((res, rej) => {
             let db = this.connection;
 
+            // inserting a new entry into the database and getting the object to get the informatiom
+            // to be inserted
             db.query('INSERT INTO department SET ?', {name: obj.newDepartment}, (error, result) => {
                 if(error) rej(error);
                 res(result);

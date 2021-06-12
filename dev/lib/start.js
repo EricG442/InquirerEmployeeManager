@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 
+// creating and storing the inquirer prompt objects to call later
 const questions = {
     homeMenu: [
         {
@@ -68,6 +69,7 @@ const questions = {
 
 class PromptEngine {
 
+    // all methods in this class will return a promise
     mainMenu() {
         return inquirer.prompt(questions.homeMenu);
     };
@@ -76,6 +78,9 @@ class PromptEngine {
         return inquirer.prompt(questions.addDepartment);
     };
 
+    // these methods require an object to be passed in, which is the result of
+    // another promise from the 'store.js' file which returns the data from the database
+    // to use in the 'choices' property
     addEmployeeRole(roleObj) {
         return inquirer.prompt([...questions.addEmployeeRole, {
                     message: 'Department question goes here',

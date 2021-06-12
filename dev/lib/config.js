@@ -3,7 +3,6 @@ const path = require('path');
 const dotenv = require('dotenv');
 
 const envPath = path.join(__dirname, '../../.env');
-console.log(envPath);
 
 // Default config settings, MySQL password required to use app
 process.env.DB_HOST = 'localhost';
@@ -12,6 +11,8 @@ process.env.DB_USER = 'root';
 process.env.DB_PASS = '',
 process.env.DB_NAME = 'employees_db';
 
+// this try catch block trys to find a '.env' file in the root directory, 
+// which should be there if user runs the setup command after installation
 try {
     if(fs.existsSync(envPath)) {
         let res = dotenv.config({path: envPath});

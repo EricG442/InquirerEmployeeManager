@@ -1,6 +1,5 @@
 const store = require('./store.js');
 const start = require('./start.js');
-const { updateEmployeeInfo } = require('./store.js');
 
 class Main {
     constructor() {
@@ -15,7 +14,10 @@ class Main {
     };
 
     runMainMenu() {
+        // main method, starts and ends the promise loop
         this.promptUser.mainMenu().then(response => {
+            // getting the users answer to first list of choices 
+            // and setting a new varible to call as a promise later
             let answer = response.mainMenu;
             let promise;
 
@@ -37,6 +39,9 @@ class Main {
                 return store.end();
             }
 
+            // after the if checks run the display method to render the data to
+            // the Handlebars file, finally calling itself to run again if 'Exit'
+            // choice was not choosen
             return promise
                     .then(res => this.display(res))
                     .then(() => this.runMainMenu());
@@ -57,6 +62,8 @@ class Main {
     addEmployee() {
         let employeeObj = {};
         
+        // starting with store instead of 'this.promptUser' to get the necessary data
+        // to pass to the the next method
         return store
                     .viewEmployeeRole()
                     .then(res => {
